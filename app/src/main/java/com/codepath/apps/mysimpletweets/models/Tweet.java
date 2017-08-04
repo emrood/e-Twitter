@@ -35,6 +35,18 @@ public class Tweet {
     private User user;
     private String createAt;
 
+    public String getProfileImage2() {
+        return profileImage2;
+    }
+
+    private String profileImage2;
+
+    public int getNbrRetweet() {
+        return nbrRetweet;
+    }
+
+    private int nbrRetweet;
+
 
     //deserialize the json
     //Tweet.fromJSON({})
@@ -44,9 +56,11 @@ public class Tweet {
 
         try {
             tweet.uid = jsonObject.getLong("id");
+            tweet.nbrRetweet = jsonObject.getInt("retweet_count");
             tweet.body = jsonObject.getString("text");
             tweet.createAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.profileImage2 = jsonObject.getString("profile_image_url_https");
         } catch (JSONException e) {
             e.printStackTrace();
         }

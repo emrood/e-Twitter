@@ -26,6 +26,8 @@ public class User {
         return profileImageUrl;
     }
 
+
+
     private long uid;
     private String screenName;
     private String profileImageUrl;

@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.codepath.apps.restclienttemplate"
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -17,11 +18,16 @@ android {
         }
     }
 }
+ext {
+    supportLibVersion = '25.3.1'  // variable that can be referenced to keep support libs consistent
+}
 
 repositories {
     jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
+
+apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -31,9 +37,20 @@ dependencies {
     // Picasso for remote image loading
     // Android Async Http for sending async network requests
     // ActiveAndroid for simple persistence with an ORM
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:percent:${supportLibVersion}"
+    compile "com.android.support:support-vector-drawable:${supportLibVersion}" // VectorDrawableCompat
+    compile "com.android.support:animated-vector-drawable:${supportLibVersion}" // AnimatedVectorDrawableCompat
+    compile "com.android.support:transition:${supportLibVersion}"
+    compile 'com.android.support:support-v4:25.3.1'
+
 }
