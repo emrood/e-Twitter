@@ -24,6 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -31,7 +35,7 @@ public class TimelineActivity extends AppCompatActivity{
 
     private TwitterClient client;
     private ArrayList<Tweet> tweets;
-    private TweetsArrayAdapter aTweets;
+    public TweetsArrayAdapter aTweets;
     private ListView lvTweets;
     FragmentTweet tweety;
     FragmentManager fm;
@@ -52,6 +56,13 @@ public class TimelineActivity extends AppCompatActivity{
         //construire l'adapter
         client = TwitterApplication.getRestClient();//un seul invite
         populateTimeline();
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                loadMoreTimeline();
+                return false;
+            }
+        });
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -66,7 +77,7 @@ public class TimelineActivity extends AppCompatActivity{
     //encoyer une requete pour recevoir le timeline
     //
     private void loadMoreTimeline(){
-        client.getMoreTimeline(new JsonHttpResponseHandler(){
+        client.getHomeTimeline(2 ,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 Toast.makeText(TimelineActivity.this, "Loading more...", Toast.LENGTH_SHORT).show();
@@ -80,7 +91,7 @@ public class TimelineActivity extends AppCompatActivity{
         });
     }
 
-    private void populateTimeline() {
+    public void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
@@ -120,5 +131,10 @@ public class TimelineActivity extends AppCompatActivity{
         tweety.show(fm, "New Tweet");
 
     }
+
+    public void onResultFromFragment(){
+
+    }
+
 
 }

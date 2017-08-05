@@ -84,7 +84,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvRetweet.setVisibility(View.VISIBLE);
         }
         viewHolder.tvUserName.setText(tweet.getUser().getName());
-        viewHolder.tvBody.setText(tweet.getBody());
+        viewHolder.tvBody.setText(tweet.getBody() + "image url: " + tweet.getUser().getProfileImageUrl());
         viewHolder.tvDate.setText(getRelativeTimeAgo(tweet.getCreateAt()));
 
         ivProfilePic.setImageResource(android.R.color.transparent);

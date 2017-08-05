@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets.models;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,10 @@ import com.codepath.apps.mysimpletweets.TimelineActivity;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -41,6 +46,7 @@ public class FragmentTweet extends DialogFragment {
     TextView tvCounter;
     int max = 140;
     TwitterClient client;
+    TimelineActivity timelineActivity;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.tweet_fragment, null);
@@ -49,6 +55,7 @@ public class FragmentTweet extends DialogFragment {
         int height = getResources().getDimensionPixelSize(R.dimen.fragment_height);
         getDialog().getWindow().setLayout(width, height);
         fh = getFragmentManager();
+        timelineActivity = (TimelineActivity) getActivity();
         client = TwitterApplication.getRestClient();
         ibSend = (ImageButton) rootView.findViewById(R.id.ibSend);
         etNew = (EditText) rootView.findViewById(R.id.etNew);
@@ -74,6 +81,8 @@ public class FragmentTweet extends DialogFragment {
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onSendTweet(etNew.getText().toString());
+                timelineActivity.onResultFromFragment();
                 dismiss();
             }
         });
@@ -89,5 +98,27 @@ public class FragmentTweet extends DialogFragment {
         return rootView;
     }
 
+    private void onSendTweet(String message){
+        client.composeATweet(message, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(getContext());
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(getActivity());
+    }
 }
