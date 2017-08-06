@@ -44,7 +44,7 @@ public class FragmentTweet extends DialogFragment {
     ImageButton ibClose;
     EditText etNew;
     TextView tvCounter;
-    int max = 140;
+    int max = 140;//variable comptenant la valeur max de caracteres permise
     TwitterClient client;
     TimelineActivity timelineActivity;
 
@@ -69,7 +69,7 @@ public class FragmentTweet extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvCounter.setText("Caracteres: " + String.valueOf(max - etNew.getText().length()));
+                tvCounter.setText("Caracteres: " + String.valueOf(max - etNew.getText().length()));//compteur pour restriction a 140 caracteres
             }
 
             @Override
@@ -81,8 +81,8 @@ public class FragmentTweet extends DialogFragment {
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSendTweet(etNew.getText().toString());
-                timelineActivity.onResultFromFragment();
+                onSendTweet(etNew.getText().toString());//envoie du tweet
+                timelineActivity.onResultFromFragment();//envoie d'un signal a l'activite principale lorsqu'un tweet est envoiye
                 dismiss();
             }
         });
@@ -98,6 +98,7 @@ public class FragmentTweet extends DialogFragment {
         return rootView;
     }
 
+    //methode postant le tweet
     private void onSendTweet(String message){
         client.composeATweet(message, new JsonHttpResponseHandler(){
             @Override

@@ -32,6 +32,17 @@ public class User {
     private String screenName;
     private String profileImageUrl;
 
+    public String getProfileImagehttps() {
+        return profileImagehttps;
+    }
+
+    public String getProfileImage3() {
+        return profileImage3;
+    }
+
+    private String profileImagehttps;
+    private String profileImage3;
+
     //prendre les donnees du json
     public static User fromJSON(JSONObject jsonObject){
 
@@ -42,6 +53,8 @@ public class User {
             u.uid = jsonObject.getLong("");
             u.screenName = jsonObject.getString("screen_name");
             u.profileImageUrl = jsonObject.getString("profile_image_url");
+            u.profileImagehttps = jsonObject.getString("profile_image_url_https");
+            u.profileImage3 = jsonObject.getString("profile_background_image_url_https");
         } catch (JSONException e) {
             e.printStackTrace();
         }

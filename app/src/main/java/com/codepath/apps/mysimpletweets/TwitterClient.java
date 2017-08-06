@@ -54,6 +54,7 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(url, params, handler);
 	}
 
+	//Surcharge de la methode getHomeTimeLine permettant de personnaliser le Tweet de depart
 	public void getHomeTimeline(int since, AsyncHttpResponseHandler handler){
         String url = getApiUrl("statuses/home_timeline.json");
         //mise en place des parametres de la requete: nbe de tweets, ect
@@ -75,10 +76,12 @@ public class TwitterClient extends OAuthBaseClient {
 	 *    i.e client.post(apiUrl, params, handler);
 	 */
 
+	//Methode permettant de poster un tweet
 	public void composeATweet(String status, AsyncHttpResponseHandler handler){
 		String url = getApiUrl("statuses/update.json");
 		RequestParams params = new RequestParams();
 		params.put("status", status);
 		getClient().post(url, params, handler);
 	}
+
 }

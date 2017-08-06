@@ -28,7 +28,6 @@ import java.util.Locale;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-import static com.codepath.apps.mysimpletweets.R.id.ivTest;
 import static com.codepath.apps.mysimpletweets.R.id.progressBar;
 import static com.codepath.apps.mysimpletweets.R.id.tvBody;
 import static com.codepath.apps.mysimpletweets.R.id.tvRetweet;
@@ -75,7 +74,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
 
        ImageView ivProfilePic = (ImageView) convertView.findViewById(R.id.ivUserPic);
-       ImageView ivTest = (ImageView) convertView.findViewById(R.id.ivTest);
+       //ImageView ivTest = (ImageView) convertView.findViewById(R.id.ivTest);
         //TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         //TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         viewHolder.tvRetweet.setVisibility(View.INVISIBLE);
@@ -84,21 +83,21 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder.tvRetweet.setVisibility(View.VISIBLE);
         }
         viewHolder.tvUserName.setText(tweet.getUser().getName());
-        viewHolder.tvBody.setText(tweet.getBody() + "image url: " + tweet.getUser().getProfileImageUrl());
+        viewHolder.tvBody.setText(tweet.getBody());
         viewHolder.tvDate.setText(getRelativeTimeAgo(tweet.getCreateAt()));
 
         ivProfilePic.setImageResource(android.R.color.transparent);
 
         final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 
-        ivTest.setImageResource(android.R.color.transparent);
+        //ivTest.setImageResource(android.R.color.transparent);
 
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).error(R.drawable.error).placeholder(R.drawable.twtsmall).into(ivTest);
+        //Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).error(R.drawable.error).placeholder(R.drawable.twtsmall).into(ivTest);
 
         progressBar.setVisibility(View.VISIBLE);
         
 
-        Glide.with(getContext()).load(tweet.getUser().getProfileImageUrl()).error(R.drawable.error).placeholder(R.drawable.twtsmall).bitmapTransform(new RoundedCornersTransformation(getContext(),30,10), new CropCircleTransformation(getContext())).listener(new RequestListener<String, GlideDrawable>() {
+        Glide.with(getContext()).load(tweet.getImageLast()).error(R.drawable.error).placeholder(R.drawable.twtsmall).bitmapTransform(new RoundedCornersTransformation(getContext(),30,10), new CropCircleTransformation(getContext())).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                 progressBar.setVisibility(View.GONE);

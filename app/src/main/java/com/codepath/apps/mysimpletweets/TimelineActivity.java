@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class TimelineActivity extends AppCompatActivity{
     FragmentTweet tweety;
     FragmentManager fm;
     private SwipeRefreshLayout swipeContainer;
+    private ImageButton reTweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +52,16 @@ public class TimelineActivity extends AppCompatActivity{
         setContentView(R.layout.activity_timeline);
         lvTweets = (ListView) findViewById(R.id.lvTweets);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        reTweet = (ImageButton) findViewById(R.id.ivRetweet);
         //create the arraylist
         tweets = new ArrayList<>();
         aTweets = new TweetsArrayAdapter(this, tweets);
         lvTweets.setAdapter(aTweets);
         fm = getSupportFragmentManager();
         tweety = new FragmentTweet();
-        //construire l'adapter
         client = TwitterApplication.getRestClient();//un seul invite
         populateTimeline();
+        //methode onScroll sur la listView
         lvTweets.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
@@ -67,6 +70,7 @@ public class TimelineActivity extends AppCompatActivity{
             }
         });
 
+        //methode pour rafraichir la page (when scrolling up)
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,8 +81,8 @@ public class TimelineActivity extends AppCompatActivity{
 
     }
 
-    //encoyer une requete pour recevoir le timeline
-    //
+
+    //methode visant a recevoir la suite du Timeline (when we scroll down)
     private void loadMoreTimeline(){
         client.getHomeTimeline(2 ,new JsonHttpResponseHandler(){
             @Override
@@ -94,6 +98,7 @@ public class TimelineActivity extends AppCompatActivity{
         });
     }
 
+    //Pour remplir la liste
     public void populateTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler(){
             @Override
@@ -130,11 +135,13 @@ public class TimelineActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    //methode onClick (FAB) faisant appelle au Dialogfragment: Fragmenttweet
     public void onNewTweet(View view) {
         tweety.show(fm, "New Tweet");
 
     }
 
+    //Methode recevant un signal du tweet envoye | executant un rafraichiisement du timeline apres 1,5s
     public void onResultFromFragment(){
         android.os.Handler handler = new android.os.Handler();
         handler.postDelayed(new Runnable() {
@@ -143,10 +150,12 @@ public class TimelineActivity extends AppCompatActivity{
                 aTweets.clear();
                 populateTimeline();
             }
-        }, 3000);
+        }, 1500);
 
     }
 
+
+    //Test de connectivite reseau
     private Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
