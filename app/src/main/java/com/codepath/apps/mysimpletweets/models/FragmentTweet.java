@@ -25,6 +25,7 @@ import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TimelineActivity;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
+import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -47,6 +48,7 @@ public class FragmentTweet extends DialogFragment {
     int max = 140;//variable comptenant la valeur max de caracteres permise
     TwitterClient client;
     TimelineActivity timelineActivity;
+    TweetsListFragment tweetsListFragment;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.tweet_fragment, null);

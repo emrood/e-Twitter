@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/background_light"
+    android:background="@android:color/black"
     android:padding="10dp">
 
     <ImageView
@@ -68,12 +68,12 @@
         android:id="@+id/tvRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="retweet"
-        android:textColor="@color/twitterColor"
-        android:textStyle="italic"
         android:layout_alignBottom="@+id/ivRetweet"
         android:layout_alignLeft="@+id/tvDate"
-        android:layout_alignStart="@+id/tvDate" />
+        android:layout_alignStart="@+id/tvDate"
+        android:text="retweet"
+        android:textColor="@color/twitterColor"
+        android:textStyle="italic" />
 
     <ImageButton
         android:id="@+id/ivRetweet"
