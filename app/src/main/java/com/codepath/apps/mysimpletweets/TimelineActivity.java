@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Adapters.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionTimeline;
@@ -56,11 +58,14 @@ public class TimelineActivity extends AppCompatActivity{
         setContentView(R.layout.activity_timeline);
         Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("e-Twitter");
 
         //Get the VoiewPager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
         vpPager.setAdapter(new TweetspagerAdapter(getSupportFragmentManager()));
         //set Adapter to ViewPager
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabStrip.setViewPager(vpPager);
 
     }
 
@@ -96,6 +101,11 @@ public class TimelineActivity extends AppCompatActivity{
             }
         }, 1500);
 
+    }
+
+    public void onProvileView(MenuItem item) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
     }
 
     //done l'ordre des fragments

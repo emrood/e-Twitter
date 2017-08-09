@@ -37,6 +37,15 @@ dependencies {
     // Picasso for remote image loading
     // Android Async Http for sending async network requests
     // ActiveAndroid for simple persistence with an ORM
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:percent:${supportLibVersion}"
+    compile "com.android.support:support-vector-drawable:${supportLibVersion}"
+    // VectorDrawableCompat
+    compile "com.android.support:animated-vector-drawable:${supportLibVersion}"
+    // AnimatedVectorDrawableCompat
+    compile "com.android.support:transition:${supportLibVersion}"
+
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
@@ -45,13 +54,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.8.0'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     compile 'jp.wasabeef:glide-transformations:2.0.2'
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:percent:${supportLibVersion}"
-    compile "com.android.support:support-vector-drawable:${supportLibVersion}" // VectorDrawableCompat
-    compile "com.android.support:animated-vector-drawable:${supportLibVersion}" // AnimatedVectorDrawableCompat
-    compile "com.android.support:transition:${supportLibVersion}"
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

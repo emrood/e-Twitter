@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:background="@android:color/background_light"
     android:padding="10dp">
 
     <ImageView
@@ -28,7 +28,8 @@
         android:autoLink="all"
         android:linksClickable="true"
         android:paddingBottom="2dp"
-        android:text="Billy" />
+        android:text="Billy"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -41,7 +42,8 @@
         android:layout_toRightOf="@+id/ivUserPic"
         android:autoLink="all"
         android:linksClickable="true"
-        android:text="New Text" />
+        android:text="New Text"
+        android:textColor="@android:color/black" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -62,6 +64,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="TextView"
+        android:textColor="@android:color/black"
         android:textStyle="italic" />
 
     <TextView

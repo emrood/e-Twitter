@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/essaie2"
+    android:background="@android:color/background_light"
     android:fitsSystemWindows="true" >
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,9 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:divider="@color/essaie2"
             android:layout_alignParentTop="true"
-            android:background="#7ecef6"
-            android:dividerHeight="15.0sp" />
+            android:background="@android:color/transparent"
+            android:dividerHeight="7dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton

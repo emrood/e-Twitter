@@ -97,7 +97,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         progressBar.setVisibility(View.VISIBLE);
         
 
-        Glide.with(getContext()).load(tweet.getImageLast()).error(R.drawable.error).placeholder(R.drawable.twtsmall).bitmapTransform(new RoundedCornersTransformation(getContext(),30,10), new CropCircleTransformation(getContext())).listener(new RequestListener<String, GlideDrawable>() {
+        Glide.with(getContext()).load(tweet.getImageLast()).error(R.drawable.error).placeholder(R.drawable.twtsmall).listener(new RequestListener<String, GlideDrawable>() {
             @Override
             public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
                 progressBar.setVisibility(View.GONE);
