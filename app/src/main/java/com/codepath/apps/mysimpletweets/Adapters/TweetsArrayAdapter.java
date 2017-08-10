@@ -72,6 +72,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        ImageView ivTweetImage = (ImageView) convertView.findViewById(R.id.ivTweetImage);
+
 
        ImageView ivProfilePic = (ImageView) convertView.findViewById(R.id.ivUserPic);
        //ImageView ivTest = (ImageView) convertView.findViewById(R.id.ivTest);
@@ -87,12 +89,17 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.tvDate.setText(getRelativeTimeAgo(tweet.getCreateAt()));
 
         ivProfilePic.setImageResource(android.R.color.transparent);
+        ivTweetImage.setVisibility(View.INVISIBLE);
+
+        if(tweet.getTweetImage1() != null){
+            ivTweetImage.setVisibility(View.VISIBLE);
+            Glide.with(getContext()).load(tweet.getTweetImage1()).fitCenter().into(ivTweetImage);
+        }
+
+
+
 
         final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
-
-        //ivTest.setImageResource(android.R.color.transparent);
-
-        //Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).error(R.drawable.error).placeholder(R.drawable.twtsmall).into(ivTest);
 
         progressBar.setVisibility(View.VISIBLE);
         

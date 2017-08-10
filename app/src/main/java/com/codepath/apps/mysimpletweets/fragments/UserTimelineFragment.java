@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import com.codepath.apps.mysimpletweets.TwitterApplication;
@@ -11,6 +12,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -24,12 +27,16 @@ import static java.util.Collections.addAll;
 public class UserTimelineFragment extends TweetsListFragment{
 
     private TwitterClient client;
+    //public ArrayList<Tweet> tweets;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();//un seul invite
+        //tweets = new ArrayList<>();
         populateTimeline();
+
+
     }
 
     public static UserTimelineFragment newInstance(String screen_name){

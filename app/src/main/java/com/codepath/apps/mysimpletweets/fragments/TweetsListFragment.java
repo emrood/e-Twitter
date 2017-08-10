@@ -31,11 +31,11 @@ import static com.codepath.apps.mysimpletweets.R.id.swipeContainer;
 public class TweetsListFragment extends Fragment {
 
 
+
     private ArrayList<Tweet> tweets;
     public TweetsArrayAdapter aTweets;
     private ListView lvTweets;
-    FragmentTweet tweety;
-    FragmentManager fm;
+
     public SwipeRefreshLayout swipeContainer;
     private ImageButton reTweet;
 
@@ -54,7 +54,8 @@ public class TweetsListFragment extends Fragment {
             }
         });
 
-        //methode pour rafraichir la page (when scrolling up)
+        lvTweets.setAdapter(aTweets);
+
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -62,7 +63,6 @@ public class TweetsListFragment extends Fragment {
                 //populateTimeline();
             }
         });
-        lvTweets.setAdapter(aTweets);
         return v;
     }
 
@@ -71,14 +71,10 @@ public class TweetsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         tweets = new ArrayList<>();
         aTweets = new TweetsArrayAdapter(getActivity(), tweets);
-        fm = getFragmentManager();
-        tweety = new FragmentTweet();
-    }
-
-    public void onNewTweet(View view) {
-        tweety.show(fm, "New Tweet");
 
     }
+
+
 
 
 

@@ -71,22 +71,36 @@
         android:id="@+id/tvRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivRetweet"
-        android:layout_alignLeft="@+id/tvDate"
-        android:layout_alignStart="@+id/tvDate"
         android:text="retweet"
         android:textColor="@color/twitterColor"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:layout_alignBottom="@+id/ivTweetImage"
+        android:layout_alignLeft="@+id/tvDate"
+        android:layout_alignStart="@+id/tvDate" />
 
     <ImageButton
         android:id="@+id/ivRetweet"
         android:layout_width="50dp"
         android:layout_height="30dp"
-        android:layout_alignEnd="@+id/ivUserPic"
-        android:layout_alignRight="@+id/ivUserPic"
+        android:layout_alignEnd="@+id/progressBar"
+        android:layout_alignRight="@+id/progressBar"
         android:layout_below="@+id/ivUserPic"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="10dp"
         android:background="@android:drawable/screen_background_light_transparent"
         app:srcCompat="@drawable/ic_reply_black_18px" />
+
+    <ImageView
+        android:id="@+id/ivTweetImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvBody"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/ivUserPic"
+        android:layout_toLeftOf="@id/tvRetweet"
+        android:layout_toRightOf="@+id/ivUserPic"
+        app:srcCompat="@drawable/ic_launcher" />
 
 </RelativeLayout>

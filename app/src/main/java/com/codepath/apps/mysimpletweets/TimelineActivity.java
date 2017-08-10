@@ -51,6 +51,8 @@ public class TimelineActivity extends AppCompatActivity{
 
     private TwitterClient client;
     private TweetsListFragment fragmentTweetList;
+    FragmentTweet tweety;
+    FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class TimelineActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("e-Twitter");
+        fm = getSupportFragmentManager();
+        tweety = new FragmentTweet();
 
         //Get the VoiewPager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
@@ -96,7 +100,7 @@ public class TimelineActivity extends AppCompatActivity{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fragmentTweetList.aTweets.clear();
+                //fragmentTweetList.aTweets.clear();
                 //populateTimeline();
             }
         }, 1500);
@@ -138,6 +142,10 @@ public class TimelineActivity extends AppCompatActivity{
         public int getCount() {
             return PAGE_COUNT;
         }
+    }
+
+    public void onNewTweet(View view) {
+        tweety.show(fm, "New Tweet");
     }
 
 }
