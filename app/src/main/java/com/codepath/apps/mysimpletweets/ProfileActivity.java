@@ -22,8 +22,10 @@ import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -39,41 +41,64 @@ import static java.util.Collections.addAll;
 public class ProfileActivity extends AppCompatActivity {
     public TwitterClient client;
     public User user;
-    public Tweet myTweet;
+    public JSONObject json;
+    public  TextView textViewUser;
+    public TextView textViewTagLine;
+    public  TextView textviewFollowers;
+    public  TextView textviewFollowing;
+    public ImageView ivProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         client = TwitterApplication.getRestClient();
+
+        textViewUser = (TextView) findViewById(R.id.textViewUser);
+        textViewTagLine = (TextView) findViewById(R.id.textVTagLine);
+        textviewFollowers = (TextView) findViewById(R.id.textViewFollower);
+        textviewFollowing = (TextView) findViewById(R.id.textViewFollowing);
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
+
         user = new User();
-        myTweet = new Tweet();
         client.getUserInfo(new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
+                Log.d("DEBUG", response.toString());
+                try {
+                    textViewTagLine.setText(response.getString("description"));
+                    textViewUser.setText(response.getString("name"));
+                    textviewFollowers.setText(response.getInt("followers_count") + " followers");
+                    textviewFollowing.setText(response.getInt("friends_count") + " following");
+                    Glide.with(getBaseContext()).load(response.getString("profile_image_url")).error(R.drawable.error).placeholder(R.drawable.twtsmall).listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            progressBar.setVisibility(View.GONE);
+                            return false;
+                        }
+                    }).into(ivProfileImage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 user = User.fromJSON(response);// my curretnt user account info
                 getSupportActionBar().setTitle("e-Twitter | @" + user.getScreenName());
-            }
-        });
-        client.getUserTimeline( user.getScreenName() ,new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
-                //JSON comming here
-                //creer les models
-                //populate into listView
-                ArrayList<Tweet> tweets = new ArrayList<>();
-                tweets.addAll(Tweet.fromJSONArray(json));
-                myTweet = tweets.get(0);
-
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //Log.d("DEBUG", errorResponse.toString());
+                Log.d("DEBUG", errorResponse.toString());
             }
         });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar2);
         setSupportActionBar(toolbar);
         if(savedInstanceState == null){
@@ -83,12 +108,13 @@ public class ProfileActivity extends AppCompatActivity {
             ft.replace(R.id.flContainer, fragmentUserTimeline);
             ft.commit();
         }
-        populateProfileHeader(myTweet);
+        //populateProfileHeader(user);
 
 
     }
 
-    private void populateProfileHeader(Tweet tweet) {
+    /*
+    private void populateProfileHeader(User u) {
 
         TextView textViewUser = (TextView) findViewById(R.id.textViewUser);
         TextView textViewTagLine = (TextView) findViewById(R.id.textVTagLine);
@@ -96,30 +122,36 @@ public class ProfileActivity extends AppCompatActivity {
         TextView textviewFollowing = (TextView) findViewById(R.id.textViewFollowing);
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
 
+        try{
+            textViewTagLine.setText(u.getTagLine());
+            textViewUser.setText(u.getScreenName());
+            textviewFollowers.setText(u.getFollower() + " followers");
+            textviewFollowing.setText(u.getFollowing() + " following");
 
-        textViewTagLine.setText(tweet.getUserDescription());
-        textViewUser.setText(tweet.getScreenName());
-        textviewFollowers.setText(tweet.getFollowers() + " followers");
-        textviewFollowing.setText(tweet.getFollowing() + " following");
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+            progressBar.setVisibility(View.VISIBLE);
 
-        progressBar.setVisibility(View.VISIBLE);
+            Glide.with(this).load(u.getProfileImageUrl()).error(R.drawable.error).placeholder(R.drawable.twtsmall).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
+                }
 
-       Glide.with(this).load(tweet.getImageLast()).error(R.drawable.error).placeholder(R.drawable.twtsmall).listener(new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                progressBar.setVisibility(View.GONE);
-                return false;
-            }
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    progressBar.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(ivProfileImage);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
 
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                progressBar.setVisibility(View.GONE);
-                return false;
-            }
-        }).into(ivProfileImage);
-    }
+
+
+    } */
 
 
 }

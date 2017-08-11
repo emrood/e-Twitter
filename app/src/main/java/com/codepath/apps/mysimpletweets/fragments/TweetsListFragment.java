@@ -56,13 +56,14 @@ public class TweetsListFragment extends Fragment {
 
         lvTweets.setAdapter(aTweets);
 
+        /*
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 aTweets.clear();
                 //populateTimeline();
             }
-        });
+        });*/
         return v;
     }
 

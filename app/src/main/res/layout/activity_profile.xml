@@ -29,10 +29,21 @@
         android:id="@+id/myRelative"
         android:layout_width="match_parent"
         android:layout_height="143dp"
-        android:background="@android:color/background_light"
-        android:layout_below="@+id/appBar"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/appBar"
+        android:background="@color/twitterColor">
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivProfileImage"
+            android:layout_alignStart="@+id/ivProfileImage"
+            android:layout_below="@+id/textViewUser"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp" />
 
 
         <TextView
@@ -40,23 +51,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ivProfileImage"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:text="TextView"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/background_light"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/ivProfileImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/ic_launcher" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            tools:srcCompat="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textVTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textViewUser"
+            android:layout_alignStart="@+id/textViewUser"
+            android:layout_centerVertical="true"
+            android:text="TextView"
+            android:textColor="@android:color/background_light"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
     </RelativeLayout>
 
@@ -78,53 +104,38 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/myRelative"
         android:orientation="horizontal"
+        android:background="@color/twitterColor"
         android:id="@+id/llcount">
 
         <TextView
             android:id="@+id/textViewFollower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="0.06"
             android:gravity="center_vertical|center_horizontal"
             android:text="TextView"
             android:textAlignment="center"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/background_light"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textViewFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_weight="0.06"
             android:gravity="center_horizontal"
             android:text="TextView"
             android:textAlignment="center"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/background_light"
+            android:textSize="15sp" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/appBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/textVTagLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/progressBar2"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/progressBar2"
-        android:layout_toRightOf="@+id/progressBar2"
-        android:text="TextView"
-        android:textColor="@android:color/black" />
+
+
 
 
 </RelativeLayout>

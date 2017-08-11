@@ -57,20 +57,20 @@ public class User {
 
 
     //prendre les donnees du json
-    public static User fromJSON(JSONObject jsonObject){
+    public static User fromJSON(JSONObject json){
 
         User u = new User();
 
         try {
-            u.name = jsonObject.getString("name");
-            u.uid = jsonObject.getLong("id");
-            u.screenName = jsonObject.getString("screen_name");
-            u.profileImageUrl = jsonObject.getString("profile_image_url");
-            u.profileImagehttps = jsonObject.getString("profile_image_url_https");
-            u.profileImage3 = jsonObject.getString("profile_background_image_url_https");
-            u.tagLine = jsonObject.getString("description");
-            u.follower = jsonObject.getInt("followers_count");
-            u.following = jsonObject.getInt("friends_count");
+            u.name = json.getString("name");
+            u.uid = json.getLong("id");
+            u.screenName = json.getString("screen_name");
+            u.profileImageUrl = json.getString("profile_image_url");
+            u.profileImagehttps = json.getString("profile_image_url_https");
+            u.profileImage3 = json.getString("profile_background_image_url_https");
+            u.tagLine = json.getString("description");
+            u.follower = json.getInt("followers_count");
+            u.following = json.getInt("friends_count");
         } catch (JSONException e) {
             e.printStackTrace();
         }

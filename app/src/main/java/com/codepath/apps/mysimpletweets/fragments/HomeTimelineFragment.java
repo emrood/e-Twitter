@@ -27,15 +27,26 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 public class HomeTimelineFragment extends TweetsListFragment {
 
     private TwitterClient client;
+    public TweetsListFragment tweetsListFragment;
+    public SwipeRefreshLayout swipeContainer;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();//un seul invite
+        tweetsListFragment = (TweetsListFragment) getTargetFragment();
+        swipeContainer = new SwipeRefreshLayout(getContext());
+
         populateTimeline();
 
-
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                aTweets.clear();
+                populateTimeline();
+            }
+        });
     }
 
     //methode visant a recevoir la suite du Timeline (when we scroll down)
@@ -43,6 +54,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
         client.getHomeTimeline(2 ,new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("DEBUG", response.toString());
                 Toast.makeText(getActivity(), "Loading more...", Toast.LENGTH_SHORT).show();
                 addAll(Tweet.fromJSONArray(response));
             }
