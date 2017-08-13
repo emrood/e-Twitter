@@ -47,22 +47,30 @@ public class MentionTimeline extends TweetsListFragment {
 
     //Pour remplir la liste
     public void populateTimeline() {
-        client.getMentionsTimeline(new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
-                //JSON comming here
-                //creer les models
-                //populate into listView
-                //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
-                addAll(Tweet.fromJSONArray(json));
-                swipeContainer.setRefreshing(false);
-            }
+        if (isNetworkAvailable()) {
+            if (isOnline()) {
+                client.getMentionsTimeline(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                        Log.d("DEBUG", json.toString());
+                        //JSON comming here
+                        //creer les models
+                        //populate into listView
+                        //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
+                        addAll(Tweet.fromJSONArray(json));
+                        swipeContainer.setRefreshing(false);
+                    }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //Log.d("DEBUG", errorResponse.toString());
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        //Log.d("DEBUG", errorResponse.toString());
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), "Poor connection", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
+            Toast.makeText(getContext(), "Use Wi-fi or Mobile data", Toast.LENGTH_SHORT).show();
+        }
     }
 }

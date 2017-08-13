@@ -1,30 +1,43 @@
 package com.codepath.apps.mysimpletweets.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.codepath.apps.mysimpletweets.DetailActivity;
 import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.mysimpletweets.TwitterApplication;
+import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -38,7 +51,7 @@ import static com.codepath.apps.mysimpletweets.R.id.tvUserName;
  */
 public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
-
+    TwitterClient client;
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, android.R.layout.simple_list_item_1, tweets);
@@ -56,10 +69,10 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Tweet tweet = getItem(position);
+        final Tweet tweet = getItem(position);
         final ViewHolder viewHolder;
 
-
+        client = TwitterApplication.getRestClient();
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet, parent, false);
             viewHolder = new ViewHolder();
@@ -72,7 +85,13 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        //////////////////////////////////////////
         ImageView ivTweetImage = (ImageView) convertView.findViewById(R.id.ivTweetImage);
+
+
+
+        //////////////////////
+        ImageButton ivRetweet = (ImageButton) convertView.findViewById(R.id.ivRetweet);
 
 
        ImageView ivProfilePic = (ImageView) convertView.findViewById(R.id.ivUserPic);
@@ -89,11 +108,27 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         viewHolder.tvDate.setText(getRelativeTimeAgo(tweet.getCreateAt()));
 
         ivProfilePic.setImageResource(android.R.color.transparent);
+        final ProgressBar progress = (ProgressBar) convertView.findViewById(R.id.progressBarTweet);
+        progress.setVisibility(View.INVISIBLE);
+
         ivTweetImage.setVisibility(View.INVISIBLE);
 
         if(tweet.getTweetImage1() != null){
             ivTweetImage.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(tweet.getTweetImage1()).fitCenter().into(ivTweetImage);
+            progress.setVisibility(View.VISIBLE);
+            Glide.with(getContext()).load(tweet.getTweetImage1()).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    progress.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    progress.setVisibility(View.INVISIBLE);
+                    return false;
+                }
+            }).fitCenter().into(ivTweetImage);
         }
 
 
@@ -118,6 +153,28 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             }
         }).into(ivProfilePic);
 
+        /////////////////////////////
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Opening profil", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(TweetsArrayAdapter.this.getContext(), DetailActivity.class);
+                i.putExtra("id", tweet.getUser().getUid());
+                i.putExtra("screenN", tweet.getScreenName());
+                TweetsArrayAdapter.this.getContext().startActivity(i);
+            }
+        });
+
+        //////////////
+        ivRetweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRetweet(tweet.getUid());
+                Toast.makeText(TweetsArrayAdapter.this.getContext(), "Retweet", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //////////////////////////
+
         return  convertView;
 
     }
@@ -138,5 +195,35 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         }
 
         return relativeDate;
+    }
+
+    public void onRetweet(long id){
+        client.onRetweet(id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("DEBUG", response.toString());
+                Toast.makeText(getContext(), "Retweet succesfull", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("DEBUG", errorResponse.toString());
+                Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public  void onUserSelected(long id, String sn){
+        client.getUserProfil(id, sn, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -49,22 +50,29 @@ public class UserTimelineFragment extends TweetsListFragment{
 
     public void populateTimeline() {
         String screen_name = getArguments().getString("screenName");
-        client.getUserTimeline( screen_name ,new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
-                //JSON comming here
-                //creer les models
-                //populate into listView
-                //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
-                addAll(Tweet.fromJSONArray(json));
-                swipeContainer.setRefreshing(false);
+        if(isNetworkAvailable()){
+            if(isOnline()){
+                client.getUserTimeline(screen_name, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                        Log.d("DEBUG", json.toString());
+                        //JSON comming here
+                        //creer les models
+                        //populate into listView
+                        //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
+                        addAll(Tweet.fromJSONArray(json));
+                        swipeContainer.setRefreshing(false);
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        //Log.d("DEBUG", errorResponse.toString());
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), "Poor connection", Toast.LENGTH_SHORT).show();
             }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //Log.d("DEBUG", errorResponse.toString());
-            }
-        });
+        } else {
+            Toast.makeText(getContext(), "Use Wi-fi or Mobile data", Toast.LENGTH_SHORT).show();
+        }
     }
 }

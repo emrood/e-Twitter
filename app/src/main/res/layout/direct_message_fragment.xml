@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:background="@android:color/background_light"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvSlogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="cursive"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingBottom="8dp"
+        android:text="Send direct Message"
+        android:textColor="@color/twitterColor"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/tvTo" />
+
+    <TextView
+        android:id="@+id/tvTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvSlogan"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="28dp"
+        android:paddingLeft="10dp"
+        android:text="To :"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etReceiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tvSlogan"
+        android:layout_below="@+id/tvTo"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/tvTo"
+        android:layout_toRightOf="@+id/tvTo"
+        android:width="100dp"
+        android:elevation="1dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        tools:text="Name" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etReceiver"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="33dp"
+        android:paddingLeft="10dp"
+        android:text="Message :"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etReceiver"
+        android:layout_alignStart="@+id/etReceiver"
+        android:layout_below="@+id/tvMessage"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etMessage"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="79dp"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/btCancel2"
+        android:layout_toRightOf="@+id/btCancel2"
+        android:text="SEND" />
+
+    <Button
+        android:id="@+id/btCancel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignBottom="@+id/btSend"
+        android:layout_alignRight="@+id/tvMessage"
+        android:layout_alignEnd="@+id/tvMessage" />
+</RelativeLayout>

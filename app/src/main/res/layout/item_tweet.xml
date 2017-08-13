@@ -29,7 +29,9 @@
         android:linksClickable="true"
         android:paddingBottom="2dp"
         android:text="Billy"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -102,5 +104,13 @@
         android:layout_toLeftOf="@id/tvRetweet"
         android:layout_toRightOf="@+id/ivUserPic"
         app:srcCompat="@drawable/ic_launcher" />
+
+    <ProgressBar
+        android:id="@+id/progressBarTweet"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivTweetImage"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

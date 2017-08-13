@@ -3,25 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Profile"
-        android:icon="@drawable/icon_profile2"
-        android:id="@+id/profile"
-        app:showAsAction="always"
-        android:onClick="onProvileView">
-    </item>
-    <item
-        android:title="Message"
-        android:icon="@drawable/tweetmessage"
-        android:id="@+id/sendDirrect"
-        android:onClick="onSendMessage"
-        app:showAsAction="always">
-    </item>
+        android:title="return"
+        android:id="@+id/returning"
+        android:icon="@drawable/ic_return"
+        android:onClick="onReturn"
+        app:showAsAction="ifRoom">
 
+    </item>
     <item
         android:title="Settings"
         android:id="@+id/setting_timeline"
         app:showAsAction="collapseActionView">
-
     </item>
     <item
         android:title="Log out"

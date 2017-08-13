@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Adapters.TweetsArrayAdapter;
+import com.codepath.apps.mysimpletweets.fragments.DirectMessageFragment;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionTimeline;
 import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
@@ -53,6 +54,8 @@ public class TimelineActivity extends AppCompatActivity{
     private TweetsListFragment fragmentTweetList;
     FragmentTweet tweety;
     FragmentManager fm;
+    DirectMessageFragment message;
+    HomeTimelineFragment homeTimelineFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class TimelineActivity extends AppCompatActivity{
         getSupportActionBar().setTitle("e-Twitter");
         fm = getSupportFragmentManager();
         tweety = new FragmentTweet();
+        message = new DirectMessageFragment();
+
 
         //Get the VoiewPager
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
@@ -102,6 +107,7 @@ public class TimelineActivity extends AppCompatActivity{
             public void run() {
                 //fragmentTweetList.aTweets.clear();
                 //populateTimeline();
+
             }
         }, 1500);
 
@@ -110,6 +116,15 @@ public class TimelineActivity extends AppCompatActivity{
     public void onProvileView(MenuItem item) {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
+    }
+
+    public void onDisconnect(MenuItem item) {
+        client.clearAccessToken();
+        finish();
+    }
+
+    public void onSendMessage(MenuItem item) {
+            message.show(fm, "message");
     }
 
     //done l'ordre des fragments

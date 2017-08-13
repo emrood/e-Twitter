@@ -18,29 +18,16 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
-import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
 
-import static android.media.CamcorderProfile.get;
-import static com.codepath.apps.mysimpletweets.R.id.ivProfileImage;
-import static com.codepath.apps.mysimpletweets.R.id.progressBar;
+public class DetailActivity extends AppCompatActivity {
 
-import static com.codepath.apps.mysimpletweets.R.id.swipeContainer;
-import static com.codepath.apps.mysimpletweets.TwitterApplication.getRestClient;
-import static java.util.Collections.addAll;
-
-public class ProfileActivity extends AppCompatActivity {
     public TwitterClient client;
     public User user;
     public JSONObject json;
@@ -53,29 +40,30 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_detail);
         client = TwitterApplication.getRestClient();
 
-        textViewUser = (TextView) findViewById(R.id.textViewUser);
-        textViewTagLine = (TextView) findViewById(R.id.textVTagLine);
-        textviewFollowers = (TextView) findViewById(R.id.textViewFollower);
-        textviewFollowing = (TextView) findViewById(R.id.textViewFollowing);
-        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        textViewUser = (TextView) findViewById(R.id.textViewUser2);
+        textViewTagLine = (TextView) findViewById(R.id.textVTagLine2);
+        textviewFollowers = (TextView) findViewById(R.id.textViewFollower2);
+        textviewFollowing = (TextView) findViewById(R.id.textViewFollowing2);
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage2);
 
-        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar2);
-        progressBar.setVisibility(View.VISIBLE);
-
+        String screen = getIntent().getStringExtra("screenN");
+        long userid = getIntent().getLongExtra("id", -1);
         user = new User();
-        client.getUserInfo(new JsonHttpResponseHandler() {
+
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar22);
+        progressBar.setVisibility(View.VISIBLE);
+        client.getUserProfil(userid, screen, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", response.toString());
                 try {
                     textViewTagLine.setText(response.getString("description"));
                     textViewUser.setText(response.getString("name"));
                     textviewFollowers.setText(response.getInt("followers_count") + " followers");
                     textviewFollowing.setText(response.getInt("friends_count") + " following");
-
+                    getSupportActionBar().setTitle("e-Twitter | @" + response.getString("screen_name"));
                     Glide.with(getBaseContext()).load(response.getString("profile_image_url")).error(R.drawable.error).placeholder(R.drawable.twtsmall).listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -92,23 +80,23 @@ public class ProfileActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                user = User.fromJSON(response);// my curretnt user account info
-                getSupportActionBar().setTitle("e-Twitter | @" + user.getScreenName());
+
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.myToolbar2);
         setSupportActionBar(toolbar);
         if (savedInstanceState == null) {
             String screenName = getIntent().getStringExtra("sreen_name");
-            UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screenName);
+            UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screen);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContainer, fragmentUserTimeline);
+            ft.replace(R.id.flContainer2, fragmentUserTimeline);
             ft.commit();
         }
 
@@ -117,17 +105,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
         return true;
     }
 
-
-    public void onDisconnect(MenuItem item) {
-        client.clearAccessToken();
+    public void onReturn(MenuItem item) {
         finish();
     }
 
-    public void onReturn(MenuItem item) {
+    public void onDisconnect(MenuItem item) {
+        client.clearAccessToken();
         finish();
     }
 }

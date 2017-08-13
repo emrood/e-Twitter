@@ -35,7 +35,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();//un seul invite
-        tweetsListFragment = (TweetsListFragment) getTargetFragment();
+        //tweetsListFragment = (TweetsListFragment) getFragmentManager().findFragmentById(R.id.)
         swipeContainer = new SwipeRefreshLayout(getContext());
 
         populateTimeline();
@@ -47,6 +47,11 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 populateTimeline();
             }
         });
+    }
+
+    public void doRefresh(){
+        aTweets.clear();
+        populateTimeline();
     }
 
     //methode visant a recevoir la suite du Timeline (when we scroll down)
@@ -68,22 +73,30 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
     //Pour remplir la liste
     public void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
-                //JSON comming here
-                //creer les models
-                //populate into listView
-                //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
-                addAll(Tweet.fromJSONArray(json));
-                swipeContainer.setRefreshing(false);
-            }
+        if (isNetworkAvailable()) {
+            if (isOnline()) {
+                client.getHomeTimeline(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                        Log.d("DEBUG", json.toString());
+                        //JSON comming here
+                        //creer les models
+                        //populate into listView
+                        //ArrayList<Tweet> tweets = Tweet.fromJSOMArray(json);
+                        addAll(Tweet.fromJSONArray(json));
+                        swipeContainer.setRefreshing(false);
+                    }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //Log.d("DEBUG", errorResponse.toString());
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        //Log.d("DEBUG", errorResponse.toString());
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), "Poor connection", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
+            Toast.makeText(getContext(), "Use Wi-fi or Mobile data", Toast.LENGTH_SHORT).show();
+        }
     }
 }
