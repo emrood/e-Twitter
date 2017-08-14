@@ -26,7 +26,17 @@ public class Tweet {
     private int following;
     private String userDescription;
     private String screenName;
+    private boolean favorite;
 
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+
+
+    public boolean isFavorite() {
+        return favorite;
+    }
 
     public void setImageLast(String imageLast) {
         this.imageLast = imageLast;
@@ -124,6 +134,7 @@ public class Tweet {
             tweet.screenName = jsonObject.getJSONObject("user").getString("screen_name");
             tweet.createAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.favorite = jsonObject.getBoolean("favorited");
             tweet.imageLast = jsonObject.getJSONObject("user").getString("profile_image_url");
             tweet.followers = jsonObject.getJSONObject("user").getInt("followers_count");
             tweet.following = jsonObject.getJSONObject("user").getInt("friends_count");

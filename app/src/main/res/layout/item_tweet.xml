@@ -117,4 +117,18 @@
         android:layout_alignTop="@+id/ivTweetImage"
         android:layout_centerHorizontal="true" />
 
+    <ImageView
+        android:id="@+id/ivFavorite"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/ivRetweet"
+        android:layout_alignLeft="@+id/ivRetweet"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:shadowColor="#00ccff"
+        android:shadowRadius="2"
+        android:shadowDx="1"
+        android:shadowDy="1"
+       tools:srcCompat="@drawable/stargrey" />
+
 </RelativeLayout>

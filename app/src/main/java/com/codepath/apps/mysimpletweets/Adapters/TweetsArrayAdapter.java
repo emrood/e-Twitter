@@ -93,7 +93,26 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         //////////////////////////////////////////
         ImageView ivTweetImage = (ImageView) convertView.findViewById(R.id.ivTweetImage);
 
+        ////////////////////
+        ImageView ivFavorite = (ImageView) convertView.findViewById(R.id.ivFavorite);
+        if(tweet.isFavorite()){
+            Picasso.with(getContext()).load(R.drawable.staryellow).into(ivFavorite);
+        }else{
+            Picasso.with(getContext()).load(R.drawable.stargrey).into(ivFavorite);
+        }
 
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(tweet.isFavorite()){
+                    tweet.setFavorite(false);
+                    notifyDataSetChanged();
+                }else{
+                    tweet.setFavorite(true);
+                    notifyDataSetChanged();
+                }
+            }
+        });
 
         //////////////////////
         ImageButton ivRetweet = (ImageButton) convertView.findViewById(R.id.ivRetweet);
