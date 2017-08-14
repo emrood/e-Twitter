@@ -45,9 +45,10 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/emrood/e-Twitter/blob/master/gif1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='https://github.com/emrood/e-Twitter/blob/master/gif2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='https://github.com/emrood/e-Twitter/blob/master/gif3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/emrood/e-Twitter/blob/pc2/gif1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/emrood/e-Twitter/blob/pc2/gif2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/emrood/e-Twitter/blob/pc2/gif3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/emrood/e-Twitter/blob/pc2/gif4.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [AZScreenRecorder].
 
