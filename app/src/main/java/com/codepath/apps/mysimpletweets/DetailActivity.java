@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -18,11 +20,14 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
+import com.codepath.apps.mysimpletweets.models.PatternEditableBuilder;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -103,6 +108,24 @@ public class DetailActivity extends AppCompatActivity {
             ft.replace(R.id.flContainer2, fragmentUserTimeline);
             ft.commit();
         }
+
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\@(\\w+)"), Color.GREEN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(DetailActivity.this, "Clicked username: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).
+                addPattern(Pattern.compile("\\#(\\w+)"), Color.CYAN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(DetailActivity.this, "Clicked hashtag: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).into(textViewTagLine);
 
 
     }

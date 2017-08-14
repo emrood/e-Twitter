@@ -2,8 +2,10 @@ package com.codepath.apps.mysimpletweets.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +23,11 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.codepath.apps.mysimpletweets.DetailActivity;
+import com.codepath.apps.mysimpletweets.ProfileActivity;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
+import com.codepath.apps.mysimpletweets.models.PatternEditableBuilder;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -36,6 +40,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -174,6 +179,23 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             }
         });
         //////////////////////////
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\@(\\w+)"), Color.GREEN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(getContext(), "Clicked username: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).
+                addPattern(Pattern.compile("\\#(\\w+)"), Color.CYAN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(getContext(), "Clicked hashtag: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).into(viewHolder.tvBody);
 
         return  convertView;
 
@@ -225,5 +247,16 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 }

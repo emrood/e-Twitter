@@ -30,6 +30,10 @@
         android:paddingBottom="2dp"
         android:text="Billy"
         android:textColor="@android:color/black"
+        android:shadowColor="#00ccff"
+        android:shadowRadius="2"
+        android:shadowDx="1"
+        android:shadowDy="1"
         android:textSize="18sp"
         android:textStyle="bold" />
 

@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -18,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
+import com.codepath.apps.mysimpletweets.models.PatternEditableBuilder;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,6 +41,8 @@ import static com.codepath.apps.mysimpletweets.R.id.ivProfileImage;
 import static com.codepath.apps.mysimpletweets.R.id.progressBar;
 
 import static com.codepath.apps.mysimpletweets.R.id.swipeContainer;
+import static com.codepath.apps.mysimpletweets.R.id.textVTagLine;
+import static com.codepath.apps.mysimpletweets.R.id.textView;
 import static com.codepath.apps.mysimpletweets.TwitterApplication.getRestClient;
 import static java.util.Collections.addAll;
 
@@ -51,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     public TextView textviewFollowers;
     public TextView textviewFollowing;
     public ImageView ivProfileImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +120,24 @@ public class ProfileActivity extends AppCompatActivity {
             ft.replace(R.id.flContainer, fragmentUserTimeline);
             ft.commit();
         }
+
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\@(\\w+)"), Color.GREEN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(ProfileActivity.this, "Clicked username: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).
+                addPattern(Pattern.compile("\\#(\\w+)"), Color.CYAN,
+                        new PatternEditableBuilder.SpannableClickedListener() {
+                            @Override
+                            public void onSpanClicked(String text) {
+                                Toast.makeText(ProfileActivity.this, "Clicked hashtag: " + text,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).into(textViewTagLine);
 
 
     }
