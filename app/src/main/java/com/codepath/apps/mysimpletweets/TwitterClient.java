@@ -36,15 +36,7 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 
-	/*
-	* 	- Get the home Timeline for the user
-		GET  https://api.twitter.com/1.1/statuses/home_timeline.json
-		Paramètres:
-		count= 25
-		since_id= 1
-		max_id=
 
-	* */
 	public void getHomeTimeline(AsyncHttpResponseHandler handler){
 		String url = getApiUrl("statuses/home_timeline.json");
 		//mise en place des parametres de la requete: nbe de tweets, ect
@@ -66,16 +58,7 @@ public class TwitterClient extends OAuthBaseClient {
         getClient().get(url, params, handler);
     }
 
-	//composer un tweet
 
-	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-	 * 	  i.e getApiUrl("statuses/home_timeline.json");
-	 * 2. Define the parameters to pass to the request (query or body)
-	 *    i.e RequestParams params = new RequestParams("foo", "bar");
-	 * 3. Define the request method and make a call to the client
-	 *    i.e client.get(apiUrl, params, handler);
-	 *    i.e client.post(apiUrl, params, handler);
-	 */
 
 	//Methode permettant de poster un tweet
 	public void composeATweet(String status, AsyncHttpResponseHandler handler){
@@ -104,11 +87,12 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(url, params, handler);
 	}
 
+	//Methode recevant les info de l'utilisateur en cours
 	public void getUserInfo(AsyncHttpResponseHandler handler){
 		String url = getApiUrl("account/verify_credentials.json");
 		getClient().get(url, null, handler);
 	}
-
+ /// Methode de retweet
 	public void onRetweet(long id, AsyncHttpResponseHandler handler){
 		String url = getApiUrl("statuses/retweet/:id.json");
 		RequestParams params = new RequestParams();
@@ -116,11 +100,27 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().post(url, params, handler);
 	}
 
+	//methode recevant le profil de n'importe quel utilisateur
 	public  void getUserProfil(long id, String screenName, AsyncHttpResponseHandler handler){
 		String url = getApiUrl("users/show.json");
 		RequestParams params = new RequestParams();
 		params.put("user_id", id);
 		params.put("screen_name", screenName);
 		getClient().get(url, params, handler);
+	}
+
+	//Methode d'envoie d'un message directe
+	public  void sendDirectMessage(String screenName, String data, AsyncHttpResponseHandler handler){
+		String url = getApiUrl("direct_messages/new.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name", screenName);
+		params.put("text", data);
+		getClient().post(url, params, handler);
+	}
+
+	//Methode de reception de la liste des messages directes
+	public void getDirectMessage(AsyncHttpResponseHandler handler){
+		String url = getApiUrl("direct_messages.json");
+		getClient().get(url, null, handler);
 	}
 }

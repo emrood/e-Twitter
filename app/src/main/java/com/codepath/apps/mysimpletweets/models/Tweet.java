@@ -13,7 +13,6 @@ import java.util.ArrayList;
 //
 public class Tweet {
 
-
     //liste des attributs
     private String imageLast;
     private int nbrRetweet;
@@ -27,6 +26,33 @@ public class Tweet {
     private int following;
     private String userDescription;
     private String screenName;
+
+
+    public void setImageLast(String imageLast) {
+        this.imageLast = imageLast;
+    }
+
+    public void setNbrRetweet(int nbrRetweet) {
+        this.nbrRetweet = nbrRetweet;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
+
 
     public String getScreenName() {
         return screenName;

@@ -94,7 +94,7 @@ public class TweetsListFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                //Swipe refresh selon le fragment en cour d'utilisation
                 if(TweetsListFragment.this instanceof HomeTimelineFragment){
                     ((HomeTimelineFragment) TweetsListFragment.this).aTweets.clear();
                     ((HomeTimelineFragment) TweetsListFragment.this).populateTimeline();
@@ -129,6 +129,7 @@ public class TweetsListFragment extends Fragment {
         swipeContainer.setRefreshing(false);
     }
 
+    //Methode testant la connection internet
     public boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
@@ -144,6 +145,7 @@ public class TweetsListFragment extends Fragment {
         return false;
     }
 
+    //methode testant si une connection est active
     public Boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

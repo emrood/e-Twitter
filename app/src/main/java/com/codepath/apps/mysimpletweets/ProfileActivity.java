@@ -40,6 +40,8 @@ import static com.codepath.apps.mysimpletweets.R.id.swipeContainer;
 import static com.codepath.apps.mysimpletweets.TwitterApplication.getRestClient;
 import static java.util.Collections.addAll;
 
+//Class recevant le profil de l'utilisateur en cours
+
 public class ProfileActivity extends AppCompatActivity {
     public TwitterClient client;
     public User user;

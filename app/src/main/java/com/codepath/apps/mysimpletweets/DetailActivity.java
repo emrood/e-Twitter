@@ -26,16 +26,18 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
+//Class recevant le profil des autres utilisateurs pour afficher leur profil
+
 public class DetailActivity extends AppCompatActivity {
 
     public TwitterClient client;
     public User user;
     public JSONObject json;
-    public TextView textViewUser;
-    public TextView textViewTagLine;
-    public TextView textviewFollowers;
-    public TextView textviewFollowing;
-    public ImageView ivProfileImage;
+    public TextView textViewUser; // nom de l'utilisateur
+    public TextView textViewTagLine; //Description de l'utilisateur
+    public TextView textviewFollowers; //Followers de l'utilisateur
+    public TextView textviewFollowing; //
+    public ImageView ivProfileImage; //profile image de l'utilisateur
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,14 @@ public class DetailActivity extends AppCompatActivity {
         textviewFollowing = (TextView) findViewById(R.id.textViewFollowing2);
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage2);
 
-        String screen = getIntent().getStringExtra("screenN");
-        long userid = getIntent().getLongExtra("id", -1);
+        String screen = getIntent().getStringExtra("screenN");//Reception le screen name de l'utilisateur a afficher
+        long userid = getIntent().getLongExtra("id", -1);// Reception de l'ID de l'utilisateur a afficher
         user = new User();
 
+        //Barre de progression gettant l'arriver de l'image
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar22);
         progressBar.setVisibility(View.VISIBLE);
+
         client.getUserProfil(userid, screen, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -73,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
 
                         @Override
                         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            progressBar.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);//Disparission de la barre de progression
                             return false;
                         }
                     }).into(ivProfileImage);
@@ -113,6 +117,7 @@ public class DetailActivity extends AppCompatActivity {
         finish();
     }
 
+    //methode deconnectant l'utilisateur
     public void onDisconnect(MenuItem item) {
         client.clearAccessToken();
         finish();

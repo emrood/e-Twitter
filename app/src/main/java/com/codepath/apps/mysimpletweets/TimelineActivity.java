@@ -23,15 +23,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.activeandroid.DatabaseHelper;
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Adapters.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.fragments.DirectMessageFragment;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionTimeline;
+import com.codepath.apps.mysimpletweets.fragments.MessageFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
 import com.codepath.apps.mysimpletweets.models.EndlessScrollListener;
 import com.codepath.apps.mysimpletweets.models.FragmentTweet;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.codepath.apps.mysimpletweets.models.TweetDataBase;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -52,10 +55,12 @@ public class TimelineActivity extends AppCompatActivity{
 
     private TwitterClient client;
     private TweetsListFragment fragmentTweetList;
-    FragmentTweet tweety;
+    FragmentTweet tweety;//fragment permettant de tweeter
     FragmentManager fm;
-    DirectMessageFragment message;
+    DirectMessageFragment message;//Fragment d'envoie de message directe
+    MessageFragment listMessage;//Fragment d'affichage de la liste des messages directes -- Non utiliser
     HomeTimelineFragment homeTimelineFragment;
+    TweetDataBase tweetDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,8 @@ public class TimelineActivity extends AppCompatActivity{
         fm = getSupportFragmentManager();
         tweety = new FragmentTweet();
         message = new DirectMessageFragment();
+        listMessage = new MessageFragment();
+
 
 
         //Get the VoiewPager
@@ -113,16 +120,19 @@ public class TimelineActivity extends AppCompatActivity{
 
     }
 
+    //Affiche le profil de l'utilisateur
     public void onProvileView(MenuItem item) {
         Intent i = new Intent(this, ProfileActivity.class);
         startActivity(i);
     }
 
+    //methode de deconnection
     public void onDisconnect(MenuItem item) {
         client.clearAccessToken();
         finish();
     }
 
+    //Affiche le fragment permettant d'envoyer un message directe
     public void onSendMessage(MenuItem item) {
             message.show(fm, "message");
     }
@@ -159,6 +169,7 @@ public class TimelineActivity extends AppCompatActivity{
         }
     }
 
+    //affiche le fragment permettant de tweeter
     public void onNewTweet(View view) {
         tweety.show(fm, "New Tweet");
     }
